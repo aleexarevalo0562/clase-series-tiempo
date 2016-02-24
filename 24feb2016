@@ -1,0 +1,26 @@
+##ALEJANDRO ARËVALO PËREZ
+install.packages("questionr")
+require(questionr)
+require(foreign)
+baseVCOE<-read.dbf("C:\\Users\\SALA-C3\\Desktop\\COE1T215.dbf")
+baseVCOE
+View (baseVCOE)
+CDMX<-subset(baseVCOE, ENT=="09")
+View(CDMX)
+#¿Aproximadamente cuántas personas, incluyendo al dueño, laboran donde trabaja ...?
+CDMX$P3L1<-ordered(CDMX$P3L, levels=c("01","02","03","04","05","06","07","08","09","10","11","99"), labels=c("1 persona","2 a 5 personas","6 a 10 personas","11 a 15 personas","16 a 20 personas", "21 a 30 personas","31 a 50 personas", "51 a 100 personas","101 a 250 personas","251 a 500 personas", "501 y más personas",  "No sabe"))
+View (CDMX)
+#La semana pasada, ¿... tuvo poco trabajo que hacer?
+CDMX$P51<-ordered(CDMX$P5,levels=c("1","2","3","9"), labels=c("Sí", "No trabajó la semana pasada", "No se encontró en esa situación", "No sabe"))
+View (CDMX)
+CDMX$P5
+#¿... esP2E
+CDMX$P2E1<-ordered(CDMX$P2E, levels=c("1","2","3","4","5","6","9"), labels=c(" una persona temporalmente ausente de su actividad u oficio?","2 pensionado o jubilado de su empleo?", "3 estudiante?","4 una persona que se dedica a los quehaceres de su" ,"5 una persona con alguna limitación física o mental que le impide trabajar por el resto de su vida?","6 Otra condición", "9 No sabe"))
+tabla1<-wtd.table(CDMX$P3L1,CDMX$P1, weights=CDMX$FAC)
+tabla1
+View (tabla1)
+tabla2<-wtd.table(CDMX$P51,CDMX$P1, weights=CDMX$FAC)
+tabla2
+tabla3<-wtd.table(CDMX$P2E, CDMX$P1,weights=CDMX$FAC)
+tabla3
+table (CDMX$P5)
